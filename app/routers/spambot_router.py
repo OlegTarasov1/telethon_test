@@ -13,7 +13,6 @@ import aiofiles
 import json
 
 spambot_cheack = Router()
-semaphore = Semaphore(1)
 
 @spambot_cheack.message(Command("start"))
 async def start_handler(msg: Message):
@@ -22,6 +21,9 @@ async def start_handler(msg: Message):
 
 @spambot_cheack.message(Command("check"))
 async def check_spam(msg: Message):
+    # clear_temp_files("./media/src")
+    # clear_temp_files("./media/new_sessions")
+    
     if msg.document:
         file_info = await msg.bot.get_file(msg.document.file_id)
         file_path = file_info.file_path
@@ -50,9 +52,6 @@ async def check_spam(msg: Message):
         
         await msg.answer(f"не заспамленно было {counter} аккаунтов!")
         
-        # finally:
-        #     await clear_temp_files("./media/src")
-        #     await clear_temp_files("./media/new_sessions")
 
     else:
         await msg.answer("вы забыли отправить файл")
